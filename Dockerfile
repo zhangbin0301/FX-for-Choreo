@@ -32,7 +32,8 @@ RUN apt-get update &&\
     addgroup --gid 10001 choreo &&\
     if echo "$ARGO_AUTH" | grep -q 'TunnelSecret'; then \
       echo "$ARGO_AUTH" | sed 's@{@{"@g;s@[,:]@"\0"@g;s@}@"}@g' > tunnel.json; \
-      echo "tunnel: $(echo "$ARGO_AUTH" | grep -oP "(?<=TunnelID:).*(?=})") \n\
+      echo "\
+tunnel: $(echo "$ARGO_AUTH" | grep -oP "(?<=TunnelID:).*(?=})") \n\
 credentials-file: /home/choreouser/tunnel.json \n\
 protocol: h2mux \n\
 \n\
@@ -40,12 +41,18 @@ ingress: \n\
   - hostname: $ARGO_DOMAIN \n\
     service: http://localhost:8080 \n\
   - hostname: $WEB_DOMAIN \n\
-    service: http://localhost:3000 \n\
+    service: http://localhost:3000" > tunnel.yml; \
+    
+      if [ -n "$SSH_DOMAIN" ]; then \
+        echo "\
   - hostname: $SSH_DOMAIN \n\
     service: http://localhost:2222 \n\
     originRequest: \n\
-      noTLSVerify: true \n\
-  - service: http_status:404" > tunnel.yml; \
+      noTLSVerify: true" >> tunnel.yml; \
+      fi; \
+      
+      echo "\
+  - service: http_status:404" >> tunnel.yml; \
     else \
       ARGO_TOKEN=$ARGO_AUTH; \
       sed -i "s#ARGO_TOKEN_CHANGE#$ARGO_TOKEN#g" entrypoint.sh; \
