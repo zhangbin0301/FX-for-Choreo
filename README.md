@@ -51,6 +51,7 @@
   | <WEB_DOMAIN>/list | 查看节点数据 |
   | <WEB_DOMAIN>/status | 查看后台进程 |
   | <WEB_DOMAIN>/listen | 查看后台监听端口 |
+  | <WEB_DOMAIN>/test   | 测试是否为只读系统 |
 
 * 修改 github 项目里的 `Dockerfile` ，把变量处理好
   
