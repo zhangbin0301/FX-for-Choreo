@@ -1,5 +1,4 @@
 # X for Choreo
-在没有公网的平台挖啊挖啊挖，Argo打通各式服务连接千万家。
 
 * * *
 
@@ -9,7 +8,7 @@
 - [部署](README.md#部署)
 - [Argo Json 的获取](README.md#argo-json-的获取)
 - [Argo Token 的获取](README.md#argo-token-的获取)
-- [TTYD webssh 的原理](README.md#ttyd-webssh-的原理)
+- [TTYD webssh 的部署](README.md#ttyd-webssh-的部署)
 - [鸣谢下列作者的文章和项目](README.md#鸣谢下列作者的文章和项目)
 - [免责声明](README.md#免责声明)
 
@@ -30,32 +29,28 @@
 * 注册 [Choreo](https://console.choreo.dev/) ，支持 GitHub / Google / Microsoft 账号进行登录，请使用以下地址注册并进行登录。
 
 * PaaS 平台设置的环境变量
-  | 变量名        | 备注 |
-  | ------------ |  ------ |
-  | UUID         | 可在线生成 https://www.zxgj.cn/g/uuid |
-  | WSPATH       | 勿以 / 开头，各协议路径为 `/WSPATH-协议`，如 `/argo-vless`,`/argo-vmess`,`/argo-trojan`,`/argo-shadowsocks` |
-  | NEZHA_SERVER | 哪吒探针与面板服务端数据通信的IP或域名 |
-  | NEZHA_PORT   | 哪吒探针服务端的端口 |
-  | NEZHA_KEY    | 哪吒探针客户端专用 Key |
-  | NEZHA_TLS    | 哪吒探针是否启用 SSL/TLS 加密 ，如不启用不要该变量，如要启用填"1" |
-  | ARGO_AUTH    | Argo 的 Token 或者 json 值 |
-  | ARGO_DOMAIN  | Argo 的域名，须与 ARGO_DOMAIN 必需一起填了才能生效 |
-  | WEB_DOMAIN   | 网址地址，用于查看节点信息和系统状态 |
-  | WEB_USERNAME | 网页和 webssh 的用户名 |
-  | WEB_PASSWORD | 网页和 webssh 的密码 |
-  | SSH_DOMAIN   | webssh 的域名，用户名和密码就是 <WEB_USERNAME> 和 <WEB_PASSWORD> |
+  | 变量名        | 是否必须 | 默认值 | 备注 |
+  | ------------ | ------ | ------ | ------ |
+  | ARGO_AUTH    | 是 |        | Argo 的 Token 或者 json 值 |
+  | ARGO_DOMAIN  | 是 |        | Argo 的域名，须与 ARGO_DOMAIN 必需一起填了才能生效 |
+  | WEB_DOMAIN   | 是 |        | 网页地址，用于查看节点信息和系统状态 |
+  | UUID         | 否 | de04add9-5c68-8bab-950c-08cd5320df18 | 可在线生成 https://www.zxgj.cn/g/uuid |
+  | WSPATH       | 否 | argo | 勿以 / 开头，各协议路径为 `/WSPATH-协议`，如 `/argo-vless`,`/argo-vmess`,`/argo-trojan`,`/argo-shadowsocks` |
+  | NEZHA_SERVER | 否 |        | 哪吒探针与面板服务端数据通信的IP或域名 |
+  | NEZHA_PORT   | 否 |        | 哪吒探针服务端的端口 |
+  | NEZHA_KEY    | 否 |        | 哪吒探针客户端专用 Key |
+  | NEZHA_TLS    | 否 |        | 哪吒探针是否启用 SSL/TLS 加密 ，如不启用不要该变量，如要启用填"1" |
+  | WEB_USERNAME | 否 | admin  | 网页和 webssh 的用户名 |
+  | WEB_PASSWORD | 否 | password | 网页和 webssh 的密码 |
+  | SSH_DOMAIN   | 否 |        | webssh 的域名，用户名和密码就是 <WEB_USERNAME> 和 <WEB_PASSWORD> |
 
 * 路径（path）
   | 命令 | 说明 |
   | ---- |------ |
-  | <WEB_DOMAIN>/list | 查看节点数据 |
+  | <WEB_DOMAIN>/list   | 查看节点数据 |
   | <WEB_DOMAIN>/status | 查看后台进程 |
   | <WEB_DOMAIN>/listen | 查看后台监听端口 |
-  | <WEB_DOMAIN>/test   | 测试是否为只读系统 |
-
-* 修改 github 项目里的 `Dockerfile` ，把变量处理好
-  
- <img width="1141" alt="image" src="https://user-images.githubusercontent.com/92626977/236611535-570495e6-ecdc-4c61-8df9-aae3ebe8a66f.png">
+  | <WEB_DOMAIN>/test   | 测试是否为只读系统 |  
 
 * Choreo 设置
 
@@ -64,6 +59,10 @@
 <img width="647" alt="image" src="https://user-images.githubusercontent.com/92626977/236611722-fb60f8be-c5cd-43d8-9ed1-c1f00694d1e1.png">
 
 <img width="700" alt="image" src="https://user-images.githubusercontent.com/92626977/236611875-f1164bf7-1bdf-4c06-a693-ca3e7b600364.png">
+
+<img width="1637" alt="image" src="https://user-images.githubusercontent.com/92626977/236786108-33ebd062-3d17-44ec-98ed-af022c3933e2.png">
+
+<img width="1293" alt="image" src="https://user-images.githubusercontent.com/92626977/236787682-5c98c391-8000-455a-b7cf-c4e08b072655.png">
 
 <img width="1638" alt="image" src="https://user-images.githubusercontent.com/92626977/236611941-2760746e-0ae3-40a8-be64-d2974e4f0a84.png">
 
@@ -83,6 +82,7 @@
 ## Argo Json 的获取
 
 用户可以通过 Cloudflare Json 生成网轻松获取: https://fscarmen.cloudflare.now.cc
+
 
 <img width="763" alt="image" src="https://user-images.githubusercontent.com/92626977/236611088-5c380ae6-4558-4e53-bc5a-ef1a44388c69.png">
 
@@ -113,7 +113,6 @@
 
 * Nike Jeff 的 trojan 项目: https://github.com/hrzyang/glitch-trojan
 * Hifeng 的博客: https://www.hicairo.com/post/62.html
-
 
 ## 免责声明:
 * 本程序仅供学习了解, 非盈利目的，请于下载后 24 小时内删除, 不得用作任何商业用途, 文字、数据及图片均有所属版权, 如转载须注明来源。

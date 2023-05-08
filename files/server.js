@@ -1,6 +1,6 @@
-const username = process.env.WEB_USERNAME || "WEB_USERNAME_CHANGE";
-const password = process.env.WEB_PASSWORD || "WEB_PASSWORD_CHANGE";
-const url = "https://WEB_DOMAIN_CHANGE";
+const username = process.env.WEB_USERNAME || "admin";
+const password = process.env.WEB_PASSWORD || "password";
+const url = `https://${process.env.WEB_DOMAIN}`;
 const port = process.env.PORT || 3000;
 const express = require("express");
 const app = express();
@@ -52,7 +52,7 @@ app.get("/listen", function (req, res) {
 
 //获取节点数据
 app.get("/list", function (req, res) {
-    let cmdStr = "cat list";
+    let cmdStr = "bash /tmp/argo.sh";
     exec(cmdStr, function (err, stdout, stderr) {
       if (err) {
         res.type("html").send("<pre>命令行执行错误：\n" + err + "</pre>");
@@ -85,15 +85,15 @@ app.get("/info", function (req, res) {
 
 //文件系统只读测试
 app.get("/test", function (req, res) {
-  let cmdStr = 'mount | grep " / " | grep "(ro," >/dev/null';
-  exec(cmdStr, function (error, stdout, stderr) {
-    if (error !== null) {
-      res.send("系统权限为---非只读");
-    } else {
-      res.send("系统权限为---只读");
-    }
+    let cmdStr = 'mount | grep " / " | grep "(ro," >/dev/null';
+    exec(cmdStr, function (error, stdout, stderr) {
+      if (error !== null) {
+        res.send("系统权限为---非只读");
+      } else {
+        res.send("系统权限为---只读");
+      }
+    });
   });
-});
 
 // keepalive begin
 //web保活
@@ -110,6 +110,19 @@ function keep_web_alive() {
 }
 setInterval(keep_web_alive, 30 * 1000);
 
+app.use(
+  '/',
+  createProxyMiddleware({
+    changeOrigin: true,
+    onProxyReq: function onProxyReq(proxyReq, req, res) {},
+    pathRewrite: {
+      // 将请求中 /ssh 路径重写为 http://127.0.0.1:2222/
+      '^/ssh': '',
+    },
+    target: "http://127.0.0.1:2222/",
+    ws: true,
+  })
+);
 app.use(
   "/",
   createProxyMiddleware({
