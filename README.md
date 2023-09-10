@@ -27,13 +27,13 @@
 
 ## 部署:
 * 注册 [Choreo](https://console.choreo.dev/) ，支持 GitHub / Google / Microsoft 账号进行登录，请使用以下地址注册并进行登录。
+* 务必选欧洲地区，不要选美区。现在美区已禁 Argo，估计是禁了 7844/tcp。
 
 * PaaS 平台设置的环境变量
   | 变量名        | 是否必须 | 默认值 | 备注 |
   | ------------ | ------ | ------ | ------ |
   | ARGO_AUTH    | 是 |        | Argo 的 Token 或者 json 值 |
   | ARGO_DOMAIN  | 是 |        | Argo 的域名，须与 ARGO_DOMAIN 必需一起填了才能生效 |
-  | WEB_DOMAIN   | 是 |        | 网页地址，用于查看节点信息和系统状态 |
   | UUID         | 否 | de04add9-5c68-8bab-950c-08cd5320df18 | 可在线生成 https://www.zxgj.cn/g/uuid |
   | WSPATH       | 否 | argo | 勿以 / 开头，各协议路径为 `/WSPATH-协议`，如 `/argo-vless`,`/argo-vmess`,`/argo-trojan`,`/argo-shadowsocks` |
   | NEZHA_SERVER | 否 |        | 哪吒探针与面板服务端数据通信的IP或域名 |
@@ -47,46 +47,49 @@
 * 路径（path）
   | 命令 | 说明 |
   | ---- |------ |
-  | <WEB_DOMAIN>/list   | 查看节点数据 |
-  | <WEB_DOMAIN>/status | 查看后台进程 |
-  | <WEB_DOMAIN>/listen | 查看后台监听端口 |
-  | <WEB_DOMAIN>/test   | 测试是否为只读系统 |  
+  | <URL>/list   | 查看节点数据 |
+  | <URL>/status | 查看后台进程 |
+  | <URL>/listen | 查看后台监听端口 |
+  | <URL>/test   | 测试是否为只读系统 |  
 
 * Choreo 设置
 
-<img width="1037" alt="image" src="https://user-images.githubusercontent.com/92626977/236611678-e9ee0a82-efe3-4a21-ab4a-fc16d3d1fa1b.png">
+<img width="1139" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/b10b00f8-ddd5-4942-bd7d-5da0b5446c83">
   
-<img width="647" alt="image" src="https://user-images.githubusercontent.com/92626977/236611722-fb60f8be-c5cd-43d8-9ed1-c1f00694d1e1.png">
+<img width="1228" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/ad5a74f6-49b6-4603-ba9b-c04daa1d1170">
 
-<img width="700" alt="image" src="https://user-images.githubusercontent.com/92626977/236611875-f1164bf7-1bdf-4c06-a693-ca3e7b600364.png">
+<img width="1222" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/602661c4-c880-408c-878f-97c90dd3802e">
 
-<img width="1637" alt="image" src="https://user-images.githubusercontent.com/92626977/236786108-33ebd062-3d17-44ec-98ed-af022c3933e2.png">
+<img width="1565" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/7cfe1aed-b94a-4e16-bd3e-6503833e869c">
 
-<img width="1293" alt="image" src="https://user-images.githubusercontent.com/92626977/236787682-5c98c391-8000-455a-b7cf-c4e08b072655.png">
+<img width="1639" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/a6a10a44-5b72-460a-a176-9b44df389088">
 
-<img width="1638" alt="image" src="https://user-images.githubusercontent.com/92626977/236611941-2760746e-0ae3-40a8-be64-d2974e4f0a84.png">
+<img width="1634" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/0364a2af-bd01-49cc-b1d2-0156521d4276">
 
-<img width="1680" alt="image" src="https://user-images.githubusercontent.com/92626977/236612065-2af3d69b-3ea2-4f79-bc33-6ddba2b03638.png">
+<img width="1301" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/2cd421c5-8464-4eb2-9173-187eb400a8a9">
 
-<img width="1506" alt="image" src="https://user-images.githubusercontent.com/92626977/236612104-b3d4fa86-4111-4e5d-b672-3458ad440e9c.png">
+<img width="1536" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/d7dd41fa-1afd-412a-ac33-0d559d5804e6">
 
-<img width="1151" alt="image" src="https://user-images.githubusercontent.com/92626977/236612474-065ddf6e-9d44-4d8c-b237-2f2623c8856f.png">
+<img width="1529" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/ea7e9c24-16ee-47f4-ad11-3129709ac748">
 
-<img width="997" alt="image" src="https://user-images.githubusercontent.com/92626977/236612512-31fb24d6-e3b1-48a0-bfa9-165cb122d311.png">
+<img width="1619" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/d5d1af03-a529-49e1-bfe7-3a71a31a4992">
 
-<img width="331" alt="image" src="https://user-images.githubusercontent.com/92626977/236612116-97fa6072-ad5b-4a61-8906-8d9b9153327d.png">
+<img width="1632" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/20e42c78-9355-4df5-b366-5244443a890f">
 
-<img width="579" alt="image" src="https://user-images.githubusercontent.com/92626977/236612319-7071bc1a-e60e-4fe0-8a37-765133adca71.png">
+<img width="1099" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/aaffc1fb-c498-48d7-bbe7-fd9b865e758b">
+
+<img width="355" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/d1b192ec-3daf-444c-8032-63653bccfab1">
+
+<img width="779" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/9a162704-b813-4dbe-9590-897ee8a9f945">
 
   
 ## Argo Json 的获取
 
 用户可以通过 Cloudflare Json 生成网轻松获取: https://fscarmen.cloudflare.now.cc
 
+<img width="756" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/2cd80ccc-a64f-4410-84c9-b7c5b2b5e2aa">
 
-<img width="763" alt="image" src="https://user-images.githubusercontent.com/92626977/236611088-5c380ae6-4558-4e53-bc5a-ef1a44388c69.png">
-
-<img width="1636" alt="image" src="https://user-images.githubusercontent.com/92626977/236611051-910b753d-77f2-423c-8941-9ef5b0e64316.png">
+<img width="1588" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/9da38fd3-c7ba-4875-a15e-c80d06fa9c83">
   
 如想手动，可以参考，以 Debian 为例，需要用到的命令，[Deron Cheng - CloudFlare Argo Tunnel 试用](https://zhengweidong.com/try-cloudflare-argo-tunnel)
 
@@ -97,7 +100,7 @@
 
 <img width="1393" alt="image" src="https://user-images.githubusercontent.com/92626977/236611164-dc7d8c98-b742-485a-b6f1-aba88793ef59.png">
 
-<img width="1660" alt="image" src="https://user-images.githubusercontent.com/92626977/236611259-273f2486-9c08-408c-83f9-40235103c706.png">
+<img width="1667" alt="image" src="https://github.com/fscarmen2/X-for-Choreo/assets/92626977/03531af2-d425-4470-8e81-60d2c399317d">
 
 
 ## TTYD webssh 的原理

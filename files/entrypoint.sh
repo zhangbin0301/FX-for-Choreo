@@ -6,6 +6,10 @@ UUID=${UUID:-'de04add9-5c68-8bab-950c-08cd5320df18'}
 WEB_USERNAME=${WEB_USERNAME:-'admin'}
 WEB_PASSWORD=${WEB_PASSWORD:-'password'}
 
+check_argo() {
+  ! nc -vzw3 198.41.192.77 7844 && echo -e '********************\nError: Argo 不可用\n********************' && exit 1 || echo -e '********************\nArgo 可用\n********************'
+}
+
 generate_config() {
   cat > /tmp/config.json << EOF
 {
@@ -233,23 +237,19 @@ argo_type() {
   [[ \$ARGO_AUTH =~ TunnelSecret ]] && echo \$ARGO_AUTH > /tmp/tunnel.json && cat > /tmp/tunnel.yml << EOF
 tunnel: \$(cut -d\" -f12 <<< \$ARGO_AUTH)
 credentials-file: /tmp/tunnel.json
-protocol: h2mux
+protocol: http2
 
 ingress:
   - hostname: \$ARGO_DOMAIN
     service: http://localhost:8080
-  - hostname: \$WEB_DOMAIN
-    service: http://localhost:3000
 EOF
 
   [ -n "\${SSH_DOMAIN}" ] && cat >> /tmp/tunnel.yml << EOF
   - hostname: \$SSH_DOMAIN
     service: http://localhost:2222
 EOF
-      
+
   cat >> /tmp/tunnel.yml << EOF
-    originRequest:
-      noTLSVerify: true
   - service: http_status:404
 EOF
 }
@@ -301,7 +301,7 @@ ABC
 
 generate_pm2_file() {
   [[ $ARGO_AUTH =~ TunnelSecret ]] && ARGO_ARGS="tunnel --edge-ip-version auto --config /tmp/tunnel.yml run"
-  [[ $ARGO_AUTH =~ ^[A-Z0-9a-z=]{120,250}$ ]] && ARGO_ARGS="tunnel --edge-ip-version auto --protocol h2mux run --token ${ARGO_AUTH}"
+  [[ $ARGO_AUTH =~ ^[A-Z0-9a-z=]{120,250}$ ]] && ARGO_ARGS="tunnel --edge-ip-version auto --protocol http2 run --token ${ARGO_AUTH}"
 
   TLS=${NEZHA_TLS:+'--tls'}
 
@@ -313,25 +313,32 @@ module.exports = {
           "script":"/home/choreouser/web.js run -c /tmp/config.json"
       },
       {
-          "name":"argo",
-          "script":"cloudflared",
-          "args":"${ARGO_ARGS}"
+          name: 'argo',
+          script: 'cloudflared',
+          args: "${ARGO_ARGS}",
+          out_file: "/dev/null",
+          error_file: "/dev/null"
 EOF
 
   [[ -n "${NEZHA_SERVER}" && -n "${NEZHA_PORT}" && -n "${NEZHA_KEY}" ]] && cat >> /tmp/ecosystem.config.js << EOF
       },
       {
-          "name":"nezha",
-          "script":"/home/choreouser/nezha-agent",
-          "args":"-s ${NEZHA_SERVER}:${NEZHA_PORT} -p ${NEZHA_KEY} ${TLS}"
+          name: 'nezha',
+          script: '/home/choreouser/nezha-agent',
+          args: "-s ${NEZHA_SERVER}:${NEZHA_PORT} -p ${NEZHA_KEY} ${TLS}",
+          out_file: "/dev/null",
+          error_file: "/dev/null"
 EOF
-  
+
   [ -n "${SSH_DOMAIN}" ] && cat >> /tmp/ecosystem.config.js << EOF
       },
       {
-          "name":"ttyd",
-          "script":"/home/choreouser/ttyd",
-          "args":"-c ${WEB_USERNAME}:${WEB_PASSWORD} -p 2222 bash"
+          name: 'ttyd',
+          script: '/home/choreouser/ttyd',
+          args: "-c ${WEB_USERNAME}:${WEB_PASSWORD} -p 2222 bash",
+          out_file: "/dev/null",
+          error_file: "/dev/null"
+
 EOF
 
   cat >> /tmp/ecosystem.config.js << EOF
@@ -341,6 +348,7 @@ EOF
 EOF
 }
 
+check_argo
 generate_config
 generate_argo
 generate_pm2_file
